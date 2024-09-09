@@ -5,7 +5,8 @@ class MenuItem {
         this.description = description;
         this.imageUrl = imageUrl;
         this.category = category;
-        this.like = like
+        this.like = like;
+        this.reviews = [];
     }
 
     toJSON() {
@@ -15,7 +16,8 @@ class MenuItem {
             description: this.description,
             imageUrl: this.imageUrl,
             category: this.category,
-            like: this.like
+            like: this.like,
+            reviews: this.reviews
         };
     }
 }
