@@ -11,7 +11,7 @@ const Comments = ({ comments }) => {
             <li key={index} className="border border-gray-300 p-4 rounded-md">
               <p className="font-semibold">{comment.userName}</p>
               <p className="mt-2">{comment.comment}</p>
-              <p className="text-gray-500 text-sm mt-2">Publicado el {new Date(comment.date).toLocaleDateString()}</p>
+              <p className="text-gray-500 text-sm mt-2">{new Date(comment.date).toLocaleDateString()}</p>
             </li>
           ))}
         </ul>
