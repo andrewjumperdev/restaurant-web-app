@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import Toogle from "./Toogle";
-import UserDropdown from "./UserDropDown";
+import UserDropdown from "../components/UserDropDown";
 
 const Nav = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
