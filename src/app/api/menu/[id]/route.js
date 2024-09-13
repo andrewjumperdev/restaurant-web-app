@@ -23,7 +23,7 @@ export async function GET(request, { params }) {
             return NextResponse.json({ message: 'Item not found' }, { status: 404 });
         }
 
-        const commentsWithUserDetails = menuItem.reviews.length
+        const commentsWithUserDetails = Array.isArray(menuItem.reviews)
             ? await Promise.all(
                 menuItem.reviews.map(async (review) => {
                     const user = await userService.getUserById(review.userId);

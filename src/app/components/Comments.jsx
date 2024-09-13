@@ -1,9 +1,11 @@
 
 const Comments = ({ comments }) => {
+
+
   return (
     <div className="max-w-xl p-6 bg-white rounded-md">
       <h2 className="text-xl font-semibold mb-4">Comentarios</h2>
-      {comments.length === 0 ? (
+      {comments.length === 0  ? (
         <p>No hay comentarios para este ítem.</p>
       ) : (
         <ul className="space-y-4">

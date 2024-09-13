@@ -61,14 +61,44 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const signup = async (userData) => {
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('Error:', errorText);
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        setUser(data.user); // Guarda el usuario en el contexto
+        router.push('/');
+      } else {
+        console.error('Error:', data.message);
+      }
+    } catch (error) {
+      console.error('Error en el signup:', error);
+    }
+  };
+
   const logout = () => {
-    localStorage.removeItem('token'); 
+    localStorage.removeItem('token');
     setUser(null);
     router.push('/login');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

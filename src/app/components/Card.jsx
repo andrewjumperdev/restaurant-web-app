@@ -12,14 +12,13 @@ export default function Card({ _id, title, price, description, imageUrl }) {
     setIsExpanded(!isExpanded);
   };
 
-
   return (
     <Link
-      className="relative bg-white shadow-lg rounded-lg overflow-hidden mb-4 w-full max-w-96 m-8"
+      className="relative bg-white shadow-lg rounded-lg overflow-hidden mb-4 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto"
       href={`/menu/${_id}`}
     >
-      <div className="flex p-4">
-        <div className="relative w-1/3">
+      <div className="flex flex-col sm:flex-row p-4">
+        <div className="relative w-full sm:w-1/3 h-48 sm:h-auto">
           <Image
             src={imageUrl}
             alt={title}
@@ -31,7 +30,7 @@ export default function Card({ _id, title, price, description, imageUrl }) {
             Agregar
           </button>
         </div>
-        <div className="w-2/3 pl-4">
+        <div className="w-full sm:w-2/3 pl-0 sm:pl-4 mt-4 sm:mt-0">
           <div className="flex items-center mb-2">
             <h2 className="text-xl font-semibold flex-1">{title}</h2>
             <button className="text-2xl text-red-500 hover:text-red-700">

@@ -1,25 +1,43 @@
 import { connectToDatabase } from '../../../backend/config/db';
 import jwt from 'jsonwebtoken';
 
-export async function GET(request) {
-    try {
-        const token = request.headers.get('Authorization')?.split(' ')[1];
-
-        if (!token) {
-            return new Response(JSON.stringify({ message: 'No autorizado' }), { status: 401 });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        const db = await connectToDatabase();
-        const user = await db.collection('Users').findOne({ _id: decoded.userId });
-
-        if (!user) {
-            return new Response(JSON.stringify({ message: 'Usuario no encontrado' }), { status: 404 });
-        }
-
-        return new Response(JSON.stringify({ user: { name: user.name, email: user.email } }), { status: 200 });
-    } catch (error) {
-        return new Response(JSON.stringify({ message: 'Error en el servidor', error: error.message }), { status: 500 });
+export default async function handler(req, res) {
+  try {
+    // Check if the request is a GET request
+    if (req.method !== 'GET') {
+      return res.status(405).json({ message: 'Method not allowed' });
     }
+
+    // Retrieve the token from the Authorization header
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    // Verify the token using JWT
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Connect to the database and find the user by ID
+    const db = await connectToDatabase();
+    const user = await db.collection('Users').findOne({ _id: decoded.userId });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Send the user data back as a response
+    return res.status(200).json({
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        favoriteFood: user.favoriteFood,
+        location: user.location,
+      },
+    });
+  } catch (error) {
+    // Handle any server errors
+    return res.status(500).json({ message: 'Server error', error: error.message });
+  }
 }
