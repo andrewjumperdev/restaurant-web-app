@@ -1,14 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import Toogle from "./Toogle";
-import UserDropdown from "../components/UserDropDown";
+import { useMenu } from "@/context/MenuContext";
+import UserDropdown from "./UserDropdown";
 
 const Nav = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const { showVegan, setShowVegan, showHealthy, setShowHealthy, resetFilters } = useMenu(); 
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleFilterChange = (filterType) => {
+    if (filterType === "fullMenu") {
+      resetFilters();
+    } else if (filterType === "healthy") {
+      setShowVegan(false);
+      setShowHealthy(!showHealthy);
+    } else if (filterType === "vegan") {
+      setShowHealthy(false);
+      setShowVegan(!showVegan);
+    }
   };
 
   return (
@@ -30,7 +43,10 @@ const Nav = () => {
       {/* Menu links for larger screens */}
       <ul className="hidden md:flex space-x-4 mx-8">
         <li>
-          <Link href="#" className="flex items-center">
+          <button
+            className="flex items-center"
+            onClick={() => handleFilterChange("fullMenu")}
+          >
             <Image
               className="mx-1"
               src="/restaurant.png"
@@ -38,11 +54,14 @@ const Nav = () => {
               width={30}
               height={30}
             />
-            Full-Menu
-          </Link>
+            Full Menu
+          </button>
         </li>
         <li>
-          <Link className="flex items-center" href="#">
+          <button
+            className="flex items-center"
+            onClick={() => handleFilterChange("healthy")}
+          >
             <Image
               className="mx-1"
               src="/heart.png"
@@ -51,11 +70,22 @@ const Nav = () => {
               height={30}
             />
             Healthy
-          </Link>
+          </button>
         </li>
         <li className="flex items-center">
-          <Toogle />
-          Veg Only
+          <button
+            className="flex items-center"
+            onClick={() => handleFilterChange("vegan")}
+          >
+                              <Image
+                    className="mx-1"
+                    src="/vegetarian-food.png"
+                    alt="Healthy"
+                    width={30}
+                    height={30}
+                  />
+            Veg Only
+          </button>
         </li>
         <li className="flex items-center">
           <UserDropdown />
@@ -64,7 +94,10 @@ const Nav = () => {
 
       {/* Sidebar for mobile */}
       {isSidebarOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-40" onClick={toggleSidebar}>
+        <div
+          className="fixed inset-0 bg-gray-800 bg-opacity-50 z-40"
+          onClick={toggleSidebar}
+        >
           <div
             className="fixed top-0 left-0 w-3/4 h-full bg-white p-6 z-50"
             onClick={(e) => e.stopPropagation()}
@@ -80,7 +113,10 @@ const Nav = () => {
 
             <ul className="space-y-4">
               <li>
-                <Link href="#" className="flex items-center">
+                <button
+                  className="flex items-center"
+                  onClick={() => handleFilterChange("fullMenu")}
+                >
                   <Image
                     className="mx-1"
                     src="/restaurant.png"
@@ -88,11 +124,14 @@ const Nav = () => {
                     width={30}
                     height={30}
                   />
-                  Full-Menu
-                </Link>
+                  Full Menu
+                </button>
               </li>
               <li>
-                <Link className="flex items-center" href="#">
+                <button
+                  className="flex items-center"
+                  onClick={() => handleFilterChange("healthy")}
+                >
                   <Image
                     className="mx-1"
                     src="/heart.png"
@@ -101,11 +140,22 @@ const Nav = () => {
                     height={30}
                   />
                   Healthy
-                </Link>
+                </button>
               </li>
               <li className="flex items-center">
-                <Toogle />
-                Veg Only
+                <button
+                  className="flex items-center"
+                  onClick={() => handleFilterChange("vegan")}
+                >
+                  <Image
+                    className="mx-1"
+                    src="/vegetarian-food.png"
+                    alt="Healthy"
+                    width={30}
+                    height={30}
+                  />
+                  Veg Only
+                </button>
               </li>
               <li className="flex items-center">
                 <UserDropdown />

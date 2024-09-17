@@ -14,7 +14,7 @@ export default function Card({ _id, title, price, description, imageUrl }) {
 
   return (
     <Link
-      className="relative bg-white shadow-lg rounded-lg overflow-hidden mb-4 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto"
+      className="relative bg-white shadow-lg rounded-lg overflow-hidden mb-4 w-full max-w-sm sm:min-w-96 xl:min-w-96 mx-auto"
       href={`/menu/${_id}`}
     >
       <div className="flex flex-col sm:flex-row p-4">

@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from 'react';
-
-export default function Toggle() {
-  const [isOn, setIsOn] = useState(false);
+export default function Toggle({ isOn, setIsOn }) {
 
   const handleToggle = () => {
     setIsOn(!isOn);
   };
+
+  console.log(isOn)
 
   return (
     <div className="flex items-center mx-2">

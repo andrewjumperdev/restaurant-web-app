@@ -12,9 +12,11 @@ export async function connectToDatabase() {
     const dbName = process.env.DB_NAME;
 
     try {
-        const client = new MongoClient(uri, {useUnifiedTopology: true});
+        console.log('Connecting to MongoDB...');
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         await client.connect();
+        console.log('Connected to MongoDB successfully');
 
         const db = client.db(dbName);
 
@@ -23,7 +25,7 @@ export async function connectToDatabase() {
 
         return db;
     } catch (error) {
-        console.error('Error conectando a la base de datos:', error);
-        throw new Error('Error al conectar con la base de datos');
+        console.error('Error connecting to the database:', error);
+        throw new Error('Error connecting to the database');
     }
 }

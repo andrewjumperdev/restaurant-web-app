@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 import { useMenu } from "@/context/MenuContext";
 import { Spinner } from "./Spinner";
 
 const Menu = () => {
-  const {menuItems, loading} = useMenu();
+  const {menuItems, loading, showVegan, showHealthy } = useMenu();
 
   if (loading) {
     return(
@@ -15,10 +15,19 @@ const Menu = () => {
       )
   }
 
+  const veganFood = menuItems.filter((item) => item.category === "vegan and healthy")
+  const healthyFood = menuItems.filter((item) => item.category === "healthy");
+
+  const filteredItems = showVegan
+    ? veganFood
+    : showHealthy
+    ? healthyFood
+    : menuItems;
+
   return (
     <div className="flex flex-col">
       <div className="p-4 flex flex-wrap">
-        {menuItems.map((card, index) => (
+        {filteredItems.map((card, index) => (
           <Card
              key={index}
             _id={card._id}
